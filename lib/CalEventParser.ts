@@ -49,7 +49,7 @@ ${organizer + attendees}
 export const getAdditionalNotes = (calEvent: CalendarEvent) => {
   return `
 ${calEvent.organizer.language.translate("additional_notes")}:
-${calEvent.description}
+${(calEvent.description || "").replace(/<br \/>/gi, "\n").replace(/\?:/gi, "?")}
   `;
 };
 
