@@ -1,4 +1,2 @@
 User-agent: *
-Disallow: /sandbox
-Disallow: /api
-Disallow: /static/locales
+Disallow: /

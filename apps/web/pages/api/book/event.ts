@@ -238,7 +238,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (!eventType) return res.status(404).json({ message: "eventType.notFound" });
 
-  let users = eventType.users;
+  let users = eventType.users.sort((left, right) => (left.id > right.id ? 1 : -1));
+
+  console.log({ eventType, users });
 
   /* If this event was pre-relationship migration */
   if (!users.length && eventType.userId) {

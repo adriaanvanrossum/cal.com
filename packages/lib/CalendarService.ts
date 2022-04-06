@@ -97,6 +97,7 @@ export default abstract class BaseCalendarService implements Calendar {
          * "Attendees" MUST NOT be present
          * `attendees: this.getAttendees(event.attendees),`
          */
+        attendees: getAttendees(event.attendees),
       });
 
       if (error || !iCalString) throw new Error("Error creating iCalString");
@@ -105,6 +106,7 @@ export default abstract class BaseCalendarService implements Calendar {
       const responses = await Promise.all(
         calendars
           .filter((c) =>
+            // c.integration === 'caldav_calendar'
             event.destinationCalendar?.externalId
               ? c.externalId === event.destinationCalendar.externalId
               : true
@@ -127,6 +129,12 @@ export default abstract class BaseCalendarService implements Calendar {
           `Error creating event: ${(await Promise.all(responses.map((r) => r.text()))).join(", ")}`
         );
       }
+
+      console.log("createEvent:", {
+        calendars,
+        event,
+        responses,
+      });
 
       return {
         uid,
